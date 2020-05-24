@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>首页</title>
+    <link rel="stylesheet" href="../css/elementui.css">
+    <style>
+        .avatar-uploader .el-upload {
+            border: 1px dashed #d9d9d9;
+            border-radius: 6px;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+        }
+        .avatar-uploader .el-upload:hover {
+            border-color: #409EFF;
+        }
+        .avatar-uploader-icon {
+            font-size: 28px;
+            color: #8c939d;
+            width: 178px;
+            height: 178px;
+            line-height: 178px;
+            text-align: center;
+        }
+        .avatar {
+            width: 178px;
+            height: 178px;
+            display: block;
+        }
+    </style>
+</head>
+<body>
+<div id="app">
+    <el-form :inline="true">
+        <el-button type="primary" @click="login">进入</el-button>
+        <el-button type="primary" @click="signout">退出</el-button>
+    </el-form>
+</div>
+<script src="../js/vue.js"></script>
+<script src="../js/elementui.js"></script>
+<script src="../js/axios.js"></script>
+<script>
+    new Vue({
+        el:"#app",
+        data(){
+            return{
+                tableData:[],
+                currentPage:1,
+                size:10,
+                total:10,
+                searchMap:{},
+                formVisible: false,
+                pojo:{},
+                imageUrl:''
+            }
+        },
+        created(){
+            this.fetchData()
+        },
+        methods:{
+            fetchData(){
+                axios.post(`/brand/findPage.do?page=${this.currentPage}&size=${this.size}`,this.searchMap).then(response=>{
+                    this.tableData=response.data.rows;
+                    this.total=response.data.total
+                })
+            }
+        }
+    })
+</script>
+</body>
+</html>
